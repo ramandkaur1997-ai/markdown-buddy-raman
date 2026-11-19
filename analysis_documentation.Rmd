@@ -1,0 +1,47 @@
+---
+title: "Synthetic Retail Sales Analysis Documentation"
+author: "Ramandeep Kaur"
+date: "2026-11-18"
+output: html_document
+---
+
+> **AI Assistance Declaration:** I used Google Gemini (November 18, 2026) for ideation, R Markdown structure, and drafting explanatory prose. Prompts used: (1) "Explain what sections a good GitHub README for an R data analysis project should include." (2) "Here's a summary of my R project: A synthetic retail sales summary script (`analysis.R`) in R that generates 6 months of synthetic sales data, calculates total monthly revenue, and outputs the average monthly revenue. Generate a professional README.md file using Markdown." (3) "Add sections for Installation, Example Code, and License. Keep tone concise and professional." (4) "Review the Markdown for syntax errors and suggest 2 improvements for clarity." (5) "Generate an R Markdown (.Rmd) document explaining the purpose, inputs, code logic, and outputs of my synthetic retail sales R script (`analysis.R`)." (6) "Include executable R code chunks and clear section headings for HTML rendering." I verified all code execution and rendered output by knitting the `.Rmd` file to HTML in Posit Cloud. All final calculations and code execution are done by myself. I am responsible for the accuracy and originality of this work.
+
+## 1. Purpose of the Analysis
+The purpose of `analysis.R` is to simulate a six-month synthetic retail sales dataset and compute monthly and average revenue metrics. This demonstrates reproducible data generation, vectorized column arithmetic, and summary reporting in Base R.
+
+## 2. Inputs and Data Structure
+No external files or real-world datasets are required. All inputs are generated synthetically inside R using a fixed random seed (`set.seed(42)`) to guarantee reproducibility across runs:
+
+- **`month`**: Character vector of the first six calendar months (`Jan` through `Jun`) using R's built-in `month.abb` constant.
+- **`units_sold`**: Integer vector of 6 simulated monthly unit sales values sampled uniformly between `80` and `200`.
+- **`unit_price`**: Numeric vector representing unit prices in dollars across the six months (`$15.00`, `$16.50`, and `$18.00`).
+
+## 3. Code Logic and Execution
+The script constructs a `data.frame` from the three input vectors and calculates `total_revenue` by multiplying `units_sold` by `unit_price` element-wise.
+
+```{r retail-sales-analysis, echo=TRUE}
+# Synthetic Retail Sales Summary Script
+set.seed(42)
+
+sales_data <- data.frame(
+  month = month.abb[1:6],
+  units_sold = sample(80:200, size = 6, replace = TRUE),
+  unit_price = c(15.00, 15.00, 16.50, 16.50, 18.00, 18.00)
+)
+
+sales_data$total_revenue <- sales_data$units_sold * sales_data$unit_price
+
+knitr::kable(sales_data, caption = "Six-Month Synthetic Retail Sales Summary")
+```
+
+## 4. Output Summary & Interpretation
+Next, the script calculates the overall mean monthly revenue across all six months using `mean()` rounded to two decimal places:
+
+```{r average-revenue, echo=TRUE}
+avg_revenue <- round(mean(sales_data$total_revenue), 2)
+cat("Average monthly revenue: $", avg_revenue, "\n", sep = "")
+```
+
+- **Monthly Performance:** Monthly total revenue ranges from a low of **$1,716.00** in April (`104` units at `$16.50`) to a high of **$3,222.00** in June (`179` units at `$18.00`).
+- **Six-Month Average:** Across the first half of the year, the average monthly revenue is **$2,448.00**.
